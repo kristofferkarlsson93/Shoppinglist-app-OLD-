@@ -22,12 +22,19 @@ app.post('/insert/:item', function (request, response) {
 }),
 
 
-app.delete('/delete:id', function (request, response) {
-    console.log(request.params.id);
+app.delete('/delete/:id', function (request, response) {
+    console.log(request.body.id);
+    db.deleteItem(request.body.id);
+    response.end();
 })
 
-app.get('getshoppinglist', function (request, response) {
-    //tbc;
+app.get('/getshoppinglist', function (request, response) {
+    db.getAllItems(function (result, items) {
+        console.log("Result: " + items);
+        response.setHeader('Content-Type', 'application/json');
+        response.send(items);
+        response.end();
+    });
 })
 
 app.listen(8080);
